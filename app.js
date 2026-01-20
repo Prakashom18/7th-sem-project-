@@ -16,15 +16,23 @@ app.use(session({
     saveUninitialized : true
 }))
 
-mongoose.connect('mongodb://127.0.0.1:27017/recommendDB').then(()=>
-    console.log('mongodb connected')).catch(err=>console.log(err))
+mongoose.connect('mongodb://127.0.0.1:27017/recommendDB')
+    .then(()=> console.log('mongodb connected'))
+    .catch(err=>console.log(err))
 
 // app.use('/',)
 
-app.get('/',(req,res)=>{
-    res.send('Hello');
-}
-)
+// app.get('/',(req,res)=>{
+//     res.send('Hello');
+// })
+
+app.use('/',require('./routes/auth'));
+app.use('/courses',require('./routes/courses'));
+app.use('/recommend',require('./routes/recommend'));
+
+
+
+
 app.listen(3000,(err)=>{
     console.log('running on port 3000');
 })
