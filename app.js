@@ -10,6 +10,17 @@ app.use(express.json());
 app.use(express.urlencoded({extended:true}));
 app.set('view engine', 'ejs');
 
+app.use(session({
+    secret : 'course_secret',
+    resave:false,
+    saveUninitialized : true
+}))
+
+mongoose.connect('mongodb://127.0.0.1:27017/recommendDB').then(()=>
+    console.log('mongodb connected')).catch(err=>console.log(err))
+
+// app.use('/',)
+
 app.get('/',(req,res)=>{
     res.send('Hello');
 }
