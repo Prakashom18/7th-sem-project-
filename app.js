@@ -27,8 +27,8 @@ mongoose.connect('mongodb://127.0.0.1:27017/recommendDB')
 // })
 
 app.use('/',require('./routes/auth'));
-app.use('/courses',require('./routes/courses'));
-app.use('/recommend',require('./routes/recommend'));
+// app.use('/courses',require('./routes/courses'));
+// app.use('/recommend',require('./routes/recommend'));
 
 
 
