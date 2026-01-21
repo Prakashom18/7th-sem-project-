@@ -68,6 +68,7 @@ router.post('/login',async (req,res)=>{
             let token = generateToken(user);
             res.cookie('token',token);
             res.send('Loogedin');
+            req.session.user = user;
         }
         else{
             res.send('Email or password incorrect');
