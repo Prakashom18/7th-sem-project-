@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body>
+    <h2>Available Courses</h2>
+
+<% courses.forEach(course => { %>
+    <div>
+        <h4><%= course.title %></h4>
+        <p><%= course.category %> | <%= course.level %></p>
+        <form method="POST" action="/courses/rate">
+            <input type="hidden" name="courseId" value="<%= course._id %>">
+            <input type="number" name="rating" min="1" max="5" required>
+            <button>Rate</button>
+        </form>
+    </div>
+<% }) %>
+
+<a href="/recommend">See Recommendations</a>
+
+</body>
+</html>
