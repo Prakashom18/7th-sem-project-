@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h2>Recommended Courses</h2>
+
+        <% if (recommendations.length === 0) { %>
+            <p>No recommendations yet</p>
+        <% } %>
+
+        <% recommendations.forEach(course => { %>
+            <div>
+                <h4><%= course.title %></h4>
+                <p><%= course.category %> | <%= course.level %></p>
+            </div>
+        <% }) %>
+
+    
+</body>
+</html>

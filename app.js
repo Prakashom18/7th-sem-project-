@@ -11,10 +11,12 @@ app.use(express.urlencoded({extended:true}));
 app.set('view engine', 'ejs');
 
 app.use(session({
-    secret : 'course_secret',
-    resave:false,
-    saveUninitialized : true
-}))
+    secret: 'course_secret_key',
+    resave: false,
+    saveUninitialized: false,
+    cookie: { maxAge: 1000 * 60 * 60 } // 1 hour
+}));
+
 
 mongoose.connect('mongodb://127.0.0.1:27017/recommendDB')
     .then(()=> console.log('mongodb connected'))
@@ -28,7 +30,7 @@ mongoose.connect('mongodb://127.0.0.1:27017/recommendDB')
 
 app.use('/',require('./routes/auth'));
 app.use('/courses',require('./routes/courses'));
-// app.use('/recommend',require('./routes/recommend'));
+app.use('/recommend',require('./routes/recommend'));
 
 
 

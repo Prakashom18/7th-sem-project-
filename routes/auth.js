@@ -57,23 +57,30 @@ router.post('/register',async (req,res)=>{
 //     }
 // });
 
-router.post('/login',async (req,res)=>{
-    let {username,password} = req.body;
-    let user = await User.findOne({username});
-    if(!user) {
-        return res.status(201).send('Email  incorrect');
+router.post('/login', async (req, res) => {
+    const user = await User.findOne({ username: req.body.username });
+
+    if (!user) {
+        return res.send("User not found");
     }
-    bcrypt.compare(password,user.password,(err,result)=>{
-        if(result){
-            let token = generateToken(user);
-            res.cookie('token',token);
-            res.send('Loogedin');
-            req.session.user = user;
-        }
-        else{
-            res.send('Email or password incorrect');
-        }
-    })
-})
+
+    const isMatch = await bcrypt.compare(req.body.password, user.password);
+
+    if (!isMatch) {
+        return res.send("Wrong password");
+    }
+
+    // SAVE SESSION
+    req.session.user = {
+        _id: user._id,
+        username: user.username
+    };
+
+    // FORCE SAVE SESSION BEFORE REDIRECT
+    req.session.save(() => {
+        res.redirect('/courses');
+    });
+});
+
 
 module.exports = router;

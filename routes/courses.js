@@ -1,22 +1,29 @@
 const express = require('express');
 const Course = require('../models/courseModel');
 const Rating = require('../models/ratingModel');
+const isLoggedIn = require('../middleware/auth');
 
 const router = express.Router();
 
-router.get('/',async (req,res)=>{
+// Show courses (PROTECTED)
+router.get('/', isLoggedIn, async (req, res) => {
     const courses = await Course.find();
-    res.render('courses',{courses});
-})
+    res.render('courses', { courses });
+});
 
-router.post('/rate',async (req,res)=>{
+const mongoose = require('mongoose');
+
+// const isLoggedIn = require('../middleware/auth');
+
+router.post('/rate', isLoggedIn, async (req, res) => {
     await Rating.create({
-        userId : req.session.user._id,
-        courseId : req.body.courseId,
-        rating : req.body.rating
+        userId: req.session.user._id,
+        courseId: new mongoose.Types.ObjectId(req.body.courseId),
+        rating: Number(req.body.rating)
+    });
 
-    })
     res.redirect('/courses');
-})
+});
+
 
 module.exports = router;
